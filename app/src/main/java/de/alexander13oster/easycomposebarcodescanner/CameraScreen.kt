@@ -16,7 +16,7 @@ import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.ContextCompat
 
 @Composable
-fun CameraScreen() {
+fun CameraScreen(analyzerType: AnalyzerType) {
     val localContext = LocalContext.current
     val lifecycleOwner = LocalLifecycleOwner.current
     val cameraProviderFuture = remember {
@@ -36,7 +36,11 @@ fun CameraScreen() {
             val imageAnalysis = ImageAnalysis.Builder().build()
             imageAnalysis.setAnalyzer(
                 ContextCompat.getMainExecutor(context),
-                BarcodeAnalyzer(context)
+                if (analyzerType == AnalyzerType.BARCODE) {
+                    BarcodeAnalyzer(context)
+                } else {
+                    TextAnalyzer(context)
+                }
             )
 
             runCatching {
