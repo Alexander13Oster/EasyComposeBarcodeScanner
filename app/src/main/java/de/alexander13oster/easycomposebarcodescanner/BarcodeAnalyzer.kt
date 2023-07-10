@@ -20,19 +20,20 @@ class BarcodeAnalyzer(private val context: Context) : ImageAnalysis.Analyzer {
 
     @SuppressLint("UnsafeOptInUsageError")
     override fun analyze(imageProxy: ImageProxy) {
-        imageProxy.image?.let { image ->
-            scanner.process(
-                InputImage.fromMediaImage(
-                    image, imageProxy.imageInfo.rotationDegrees
-                )
-            ).addOnSuccessListener { barcode ->
-                barcode?.takeIf { it.isNotEmpty() }
-                    ?.mapNotNull { it.rawValue }
-                    ?.joinToString(",")
-                    ?.let { Toast.makeText(context, it, Toast.LENGTH_SHORT).show() }
-            }.addOnCompleteListener {
-                imageProxy.close()
+        imageProxy.image
+            ?.let { image ->
+                scanner.process(
+                    InputImage.fromMediaImage(
+                        image, imageProxy.imageInfo.rotationDegrees
+                    )
+                ).addOnSuccessListener { barcode ->
+                    barcode?.takeIf { it.isNotEmpty() }
+                        ?.mapNotNull { it.rawValue }
+                        ?.joinToString(",")
+                        ?.let { Toast.makeText(context, it, Toast.LENGTH_SHORT).show() }
+                }.addOnCompleteListener {
+                    imageProxy.close()
+                }
             }
-        }
     }
 }

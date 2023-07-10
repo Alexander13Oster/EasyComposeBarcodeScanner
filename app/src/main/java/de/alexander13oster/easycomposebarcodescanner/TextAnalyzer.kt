@@ -17,18 +17,20 @@ class TextAnalyzer(private val context: Context) : ImageAnalysis.Analyzer {
 
     @SuppressLint("UnsafeOptInUsageError")
     override fun analyze(imageProxy: ImageProxy) {
-        imageProxy.image?.let { image ->
-            scanner.process(
-                InputImage.fromMediaImage(
-                    image, imageProxy.imageInfo.rotationDegrees
-                )
-            ).addOnSuccessListener { results ->
-                results.textBlocks.takeIf { it.isNotEmpty() }
-                    ?.joinToString(",") { it.text }
-                    ?.let { Toast.makeText(context, it, Toast.LENGTH_SHORT).show() }
-            }.addOnCompleteListener {
-                imageProxy.close()
+        imageProxy.image
+            ?.let { image ->
+                scanner.process(
+                    InputImage.fromMediaImage(
+                        image, imageProxy.imageInfo.rotationDegrees
+                    )
+                ).addOnSuccessListener { results ->
+                    results.textBlocks
+                        .takeIf { it.isNotEmpty() }
+                        ?.joinToString(",") { it.text }
+                        ?.let { Toast.makeText(context, it, Toast.LENGTH_SHORT).show() }
+                }.addOnCompleteListener {
+                    imageProxy.close()
+                }
             }
-        }
     }
 }
