@@ -6,12 +6,12 @@ plugins {
 
 android {
     namespace "de.alexander13oster.easycomposebarcodescanner"
-    compileSdk 34
+    compileSdk 35
 
     defaultConfig {
         applicationId "de.alexander13oster.easycomposebarcodescanner"
         minSdk 23
-        targetSdk 34
+        targetSdk 35
         versionCode 1
         versionName "1.0"
 
@@ -45,7 +45,7 @@ android {
 }
 
 dependencies {
-    implementation platform("androidx.compose:compose-bom:2025.01.00")
+    implementation platform("androidx.compose:compose-bom:2025.02.00")
 
     implementation "com.google.accompanist:accompanist-permissions:0.32.0"
 
